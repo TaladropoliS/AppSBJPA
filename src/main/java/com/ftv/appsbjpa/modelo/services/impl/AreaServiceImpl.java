@@ -1,43 +1,74 @@
 package com.ftv.appsbjpa.modelo.services.impl;
 
 import com.ftv.appsbjpa.modelo.dto.AreaDTO;
-import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
+import com.ftv.appsbjpa.modelo.entity.Area;
+import com.ftv.appsbjpa.modelo.repository.IAreaRepository;
 import com.ftv.appsbjpa.modelo.services.IAreaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Service("AreaSERVICE_JPA")
+@Service
 public class AreaServiceImpl implements IAreaService {
 
-    @Transactional(readOnly = true)
+    @Autowired
+    private IAreaRepository areaRepository;
+
     @Override
-    public List<AreaDTO> ListarTodos() {
-        return List.of();
+    @Transactional(readOnly = true)
+    public List<AreaDTO> listarTodos() {
+        return areaRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public AreaDTO buscarPorId(Integer id) {
-        return null;
+        return areaRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElse(null);
     }
 
-    @Transactional
     @Override
-    public void crearArea(ClienteDTO area) {
-
+    @Transactional
+    public void guardar(AreaDTO areaDTO) {
+        Area area = convertToEntity(areaDTO);
+        areaRepository.save(area);
     }
 
-    @Transactional
     @Override
-    public void editarArea(ClienteDTO area) {
-
+    @Transactional
+    public void eliminar(Integer id) {
+        areaRepository.deleteById(id);
     }
 
-    @Transactional
     @Override
-    public void eliminarArea(Integer id) {
+    @Transactional(readOnly = true)
+    public List<AreaDTO> buscarPorNombre(String nombre) {
+        return areaRepository.findByNombreContainingIgnoreCase(nombre).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
+    private AreaDTO convertToDTO(Area area) {
+        AreaDTO dto = new AreaDTO();
+        dto.setId(area.getId());
+        dto.setNombre(area.getNombre());
+        dto.setDescripcion(area.getDescripcion());
+        dto.setActivo(area.isActivo());
+        return dto;
+    }
+
+    private Area convertToEntity(AreaDTO dto) {
+        Area area = new Area();
+        area.setId(dto.getId());
+        area.setNombre(dto.getNombre());
+        area.setDescripcion(dto.getDescripcion());
+        area.setActivo(dto.isActivo());
+        return area;
     }
 }
