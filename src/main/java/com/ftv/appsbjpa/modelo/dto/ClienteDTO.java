@@ -1,20 +1,31 @@
 package com.ftv.appsbjpa.modelo.dto;
 
 import lombok.Data;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class ClienteDTO {
     private Integer id;
-
-    @NotEmpty(message = "El nombre es obligatorio")
     private String nombre;
+    private String apellido;
+    private String correo;
+    private LocalDateTime creado;
+    private DireccionDTO direccion;
+    private List<AreaDTO> areas;
+}
 
-    @NotEmpty(message = "El email es obligatorio")
-    @Email(message = "El formato del email no es válido")
-    private String email;
+@Data
+public class DireccionDTO {
+    private Integer id;
+    private String direccion;
+    private String ciudad;
+    private String region;
+}
 
-    private String telefono;
-    private boolean activo = true;
+@Data
+public class AreaDTO {
+    private Integer id;
+    private String nombre;
+    private Integer clienteId;
 }
