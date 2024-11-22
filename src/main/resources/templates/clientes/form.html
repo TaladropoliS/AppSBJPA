@@ -18,12 +18,12 @@
 <body>
 <main class="container-fluid">
 
-    <div th:replace="~{components/navbar :: navbar}"></div>
+    <div th:replace="~{layout/header :: navbar}"></div>
 
     <section class="mt-5">
         <h1 th:text="${titulo}" class="text-center py-4"></h1>
         <div class="col-md-8 mx-auto">
-            <form th:action="@{/pages/clientes/formulario}" th:object="${cliente}" method="post" class="needs-validation" novalidate>
+            <form th:action="@{/templates/clientes/formulario}" th:object="${cliente}" method="post" class="needs-validation" novalidate>
                 <div class="row row-cols-2">
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>
@@ -144,7 +144,7 @@
 
                 <input type="hidden" th:field="*{id}">
                 <div class="d-flex justify-content-around">
-                    <a th:href="@{/pages/clientes/listar}" class="btn btn-outline-secondary">
+                    <a th:href="@{/templates/clientes/listar}" class="btn btn-outline-secondary">
                         ⏮ Volver
                     </a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">

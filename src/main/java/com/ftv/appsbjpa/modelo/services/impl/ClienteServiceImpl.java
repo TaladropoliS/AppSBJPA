@@ -1,8 +1,8 @@
-package com.ftv.appsbjpa.modelo.services;
+package com.ftv.appsbjpa.modelo.services.impl;
 
-import com.ftv.appsbjpa.modelo.dao.ClienteDAO;
 import com.ftv.appsbjpa.modelo.dao.IClienteDAO;
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
+import com.ftv.appsbjpa.modelo.services.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service("ClienteSERVICE_JPA")
-public class ClienteService implements IClienteService {
+public class ClienteServiceImpl implements IClienteService {
 
     @Autowired
     private IClienteDAO clienteDAO;

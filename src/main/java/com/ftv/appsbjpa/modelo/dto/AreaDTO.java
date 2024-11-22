@@ -1,39 +1,14 @@
 package com.ftv.appsbjpa.modelo.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-import java.io.Serializable;
-@Entity
-@Table(name = "areas")
-public class AreaDTO implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_are")
+@Data
+public class AreaDTO {
     private Integer id;
 
-    @NotEmpty
-    @Column(name = "nom_are")
+    @NotEmpty(message = "El nombre del área es requerido")
+    @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
     private String nombre;
-
-    @ManyToOne
-    @JoinColumn(name = "cli_are")
-    private ClienteDTO cliente;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 }

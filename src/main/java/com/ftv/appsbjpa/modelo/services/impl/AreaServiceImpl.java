@@ -1,14 +1,15 @@
-package com.ftv.appsbjpa.modelo.services;
+package com.ftv.appsbjpa.modelo.services.impl;
 
 import com.ftv.appsbjpa.modelo.dto.AreaDTO;
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
+import com.ftv.appsbjpa.modelo.services.IAreaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("AreaSERVICE_JPA")
-public class AreaService implements IAreaService{
+public class AreaServiceImpl implements IAreaService {
 
     @Transactional(readOnly = true)
     @Override
