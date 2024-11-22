@@ -23,7 +23,7 @@
     <section class="mt-5">
         <h1 th:text="${titulo}" class="text-center py-4"></h1>
         <div class="col-md-8 mx-auto">
-            <form th:action="@{/pages/areas/formulario}" th:object="${area}" method="post" class="needs-validation"
+            <form th:action="@{/templates/areas/formulario}" th:object="${area}" method="post" class="needs-validation"
                   novalidate>
                 <div class="">
                     <div class="mb-3">
@@ -42,7 +42,7 @@
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <div class="d-flex justify-content-around">
-                    <a th:href="@{/pages/areas/listar}" class="btn btn-outline-secondary">
+                    <a th:href="@{/templates/areas/listar}" class="btn btn-outline-secondary">
                         ⏮ Volver
                     </a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">

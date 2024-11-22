@@ -16,12 +16,19 @@ public class ClienteDAO implements IClienteDAO {
     private EntityManager em;
 
     @Override
-    public List<ClienteDTO> ListarTodos() {
+    public List<ClienteDTO> ListarClientesTodos() {
         return em.createQuery("select c from ClienteDTO c", ClienteDTO.class).getResultList();
     }
 
     @Override
-    public ClienteDTO buscarPorId(Integer id) {
+    public List<ClienteDTO> listarClientesPorCiudad(String ciudad) {
+        return em.createQuery("select c from ClienteDTO c where c.direccion.ciudad = :ciudad", ClienteDTO.class)
+                .setParameter("ciudad", ciudad)
+                .getResultList();
+    }
+
+    @Override
+    public ClienteDTO buscarClientePorId(Integer id) {
         return em.find(ClienteDTO.class, id);
     }
 
@@ -40,8 +47,8 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public void eliminar(Integer id) {
-        ClienteDTO c = buscarPorId(id);
+    public void eliminarCliente(Integer id) {
+        ClienteDTO c = buscarClientePorId(id);
         em.remove(c);
     }
 

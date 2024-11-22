@@ -3,7 +3,7 @@ package com.ftv.appsbjpa.controllers;
 import com.ftv.appsbjpa.modelo.dto.AreaDTO;
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
 import com.ftv.appsbjpa.modelo.dto.DireccionDTO;
-import com.ftv.appsbjpa.modelo.services.IClienteService;
+import com.ftv.appsbjpa.modelo.services.IProyectoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ClienteController {
+public class ProyectoController {
 
     @Autowired
     @Qualifier("ClienteSERVICE_JPA")
-    private IClienteService clienteService;
+    private IProyectoService clienteService;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -31,33 +31,33 @@ public class ClienteController {
         return "index";
     }
 
-    @GetMapping("/pages/clientes/listar")
+    @GetMapping("/clientes/listar")
     public String listar(Model model) {
         try {
             model.addAttribute("titulo", "Listado de Clientes");
-            model.addAttribute("clientes", clienteService.ListarTodos());
-            return "pages/clientes/listar";
+            model.addAttribute("clientes", clienteService.ListarClientesTodos());
+            return "clientes/listar";
         } catch (Exception e) {
             model.addAttribute("error", "Error al cargar los clientes: " + e.getMessage());
-            return "pages/clientes/listar";
+            return "clientes/listar";
         } finally {
         }
     }
 
-    @GetMapping("/pages/clientes/formulario/{id}")
+    @GetMapping("/clientes/formulario/{id}")
     public String editar(@PathVariable(value = "id") Integer id, Model model) {
         ClienteDTO cliente = null;
         if (id > 0) {
-            cliente = clienteService.buscarPorId(id);
+            cliente = clienteService.buscarClientePorId(id);
         } else {
-            return "redirect:/pages/clientes/listar";
+            return "redirect:/clientes/listar";
         }
         model.addAttribute("titulo", "Editar Cliente");
         model.addAttribute("cliente", cliente);
-        return "pages/clientes/form";
+        return "clientes/form";
     }
 
-    @GetMapping("/pages/clientes/formulario")
+    @GetMapping("/clientes/formulario")
     public String agregarGet(Model model) {
         model.addAttribute("titulo", "Formulario de Cliente");
         ClienteDTO c = new ClienteDTO();
@@ -65,14 +65,14 @@ public class ClienteController {
         List<AreaDTO> areas = new ArrayList<>();
         model.addAttribute("cliente", c);
         model.addAttribute("areas", areas);
-        return "pages/clientes/form";
+        return "clientes/form";
     }
 
-    @PostMapping("/pages/clientes/formulario")
+    @PostMapping("/clientes/formulario")
     public String agregarPost(@Valid @ModelAttribute("cliente") ClienteDTO cliente, BindingResult resultado, Model model) {
         if (resultado.hasErrors()) {
             model.addAttribute("titulo", "Formulario de Cliente");
-            return "pages/clientes/form";
+            return "clientes/form";
         }
         try {
             if (cliente.getId() != null && cliente.getId() > 0) {
@@ -81,18 +81,25 @@ public class ClienteController {
                 clienteService.crearCliente(cliente);
             }
 
-            return "redirect:/pages/clientes/listar";
+            return "redirect:/clientes/listar";
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar el cliente");
-            return "pages/clientes/form";
+            return "clientes/form";
         }
     }
 
-    @GetMapping("/pages/clientes/eliminar/{id}")
+    @GetMapping("/clientes/eliminar/{id}")
     public String eliminar(@PathVariable(value = "id") Integer id) {
         if (id > 0) {
-            clienteService.eliminar(id);
+            clienteService.eliminarCliente(id);
         }
-        return "redirect:/pages/clientes/listar";
+        return "redirect:/clientes/listar";
+    }
+
+    @GetMapping("/clientes/ciudades")
+    public String listarCiudades(Model model) {
+        model.addAttribute("titulo", "Listado de Ciudades");
+        model.addAttribute("ciudades", clienteService.listarCiudadesTodasUnicas());
+        return "clientes/listarCiudades";
     }
 }

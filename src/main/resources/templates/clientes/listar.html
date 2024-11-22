@@ -14,7 +14,7 @@
     <section class="mt-5">
         <div class="text-center pt-4 pb-2">
             <h1 th:text="${titulo}" class="text-center"></h1>
-            <a class="btn btn-sm btn-outline-primary mx-auto" th:href="@{/pages/clientes/formulario}">+ Cliente</a>
+            <a class="btn btn-sm btn-outline-primary mx-auto" th:href="@{/clientes/formulario}">+ Cliente</a>
         </div>
         <div class="mx-auto">
             <table class="table">
@@ -43,7 +43,7 @@
                     <td th:text="${cliente.direccion != null ? cliente.direccion.ciudad : ''}"></td>
                     <td th:text="${cliente.direccion != null ? cliente.direccion.region : ''}"></td>
                     <td class="text-center">
-                        <a th:href="@{/pages/clientes/formulario/} + ${cliente.id}" class="btn btn-sm">📝</a>
+                        <a th:href="@{/clientes/formulario/} + ${cliente.id}" class="btn btn-sm">📝</a>
                     </td>
                     <td class="text-center">
                         <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#listModal">⚡</button>
@@ -64,7 +64,7 @@
                                                 data-bs-dismiss="modal">
                                             ✖ Cerrar
                                         </button>
-                                        <a th:href="@{/pages/clientes/eliminar/} + ${cliente.id}" type="submit"
+                                        <a th:href="@{/clientes/eliminar/} + ${cliente.id}" type="submit"
                                            class="btn btn-primary ms-auto">
                                             ❌ Eliminar
                                         </a>

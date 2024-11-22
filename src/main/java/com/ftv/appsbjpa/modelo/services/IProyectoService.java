@@ -1,14 +1,15 @@
-package com.ftv.appsbjpa.modelo.dao;
+package com.ftv.appsbjpa.modelo.services;
 
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
 
 import java.util.List;
 
-public interface IClienteDAO {
+public interface IProyectoService {
 
+    // ClienteDAO
     public List<ClienteDTO> ListarClientesTodos();
 
-    public List<ClienteDTO> listarClientesPorCiudad(String ciudad);
+    public List<ClienteDTO> ListarClientesPorCiudad(String ciudad);
 
     public ClienteDTO buscarClientePorId(Integer id);
 
@@ -17,4 +18,7 @@ public interface IClienteDAO {
     public void editarCliente(ClienteDTO cliente);
 
     public void eliminarCliente(Integer id);
+
+    // DireccionDAO
+    public List<String> listarCiudadesTodasUnicas();
 }

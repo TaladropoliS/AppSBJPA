@@ -1,7 +1,7 @@
 package com.ftv.appsbjpa.modelo.services;
 
-import com.ftv.appsbjpa.modelo.dao.ClienteDAO;
 import com.ftv.appsbjpa.modelo.dao.IClienteDAO;
+import com.ftv.appsbjpa.modelo.dao.IDireccionDAO;
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,21 +10,29 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service("ClienteSERVICE_JPA")
-public class ClienteService implements IClienteService {
+public class ProyectoService implements IProyectoService {
 
     @Autowired
     private IClienteDAO clienteDAO;
 
+    @Autowired
+    private IDireccionDAO direccionDAO;
+
     @Transactional(readOnly = true)
     @Override
-    public List<ClienteDTO> ListarTodos() {
-        return clienteDAO.ListarTodos();
+    public List<ClienteDTO> ListarClientesTodos() {
+        return clienteDAO.ListarClientesTodos();
+    }
+
+    @Override
+    public List<ClienteDTO> ListarClientesPorCiudad(String ciudad) {
+        return clienteDAO.listarClientesPorCiudad(ciudad);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public ClienteDTO buscarPorId(Integer id) {
-        return clienteDAO.buscarPorId(id);
+    public ClienteDTO buscarClientePorId(Integer id) {
+        return clienteDAO.buscarClientePorId(id);
     }
 
     @Transactional
@@ -41,7 +49,12 @@ public class ClienteService implements IClienteService {
 
     @Transactional
     @Override
-    public void eliminar(Integer id) {
-        clienteDAO.eliminar(id);
+    public void eliminarCliente(Integer id) {
+        clienteDAO.eliminarCliente(id);
+    }
+
+    @Override
+    public List<String> listarCiudadesTodasUnicas() {
+        return direccionDAO.listarCiudadesTodasUnicas();
     }
 }

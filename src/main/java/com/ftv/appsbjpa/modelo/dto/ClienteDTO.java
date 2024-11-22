@@ -1,6 +1,7 @@
 package com.ftv.appsbjpa.modelo.dto;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -43,6 +44,7 @@ public class ClienteDTO implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dir_cli")
+    @Valid
     private DireccionDTO direccion;
 
 
