@@ -4,16 +4,14 @@ import com.ftv.appsbjpa.modelo.dto.AreaDTO;
 import com.ftv.appsbjpa.modelo.dto.ClienteDTO;
 import com.ftv.appsbjpa.modelo.dto.DireccionDTO;
 import com.ftv.appsbjpa.modelo.services.IProyectoService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,8 @@ import java.util.List;
 public class ProyectoController {
 
     @Autowired
-    @Qualifier("ClienteSERVICE_JPA")
-    private IProyectoService clienteService;
+    @Qualifier("ProyectoSERVICE_JPA")
+    private IProyectoService proyectoService;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -35,7 +33,7 @@ public class ProyectoController {
     public String listar(Model model) {
         try {
             model.addAttribute("titulo", "Listado de Clientes");
-            model.addAttribute("clientes", clienteService.ListarClientesTodos());
+            model.addAttribute("clientes", proyectoService.ListarClientesTodos());
             return "clientes/listar";
         } catch (Exception e) {
             model.addAttribute("error", "Error al cargar los clientes: " + e.getMessage());
@@ -48,7 +46,7 @@ public class ProyectoController {
     public String editar(@PathVariable(value = "id") Integer id, Model model) {
         ClienteDTO cliente = null;
         if (id > 0) {
-            cliente = clienteService.buscarClientePorId(id);
+            cliente = proyectoService.buscarClientePorId(id);
         } else {
             return "redirect:/clientes/listar";
         }
@@ -76,9 +74,9 @@ public class ProyectoController {
         }
         try {
             if (cliente.getId() != null && cliente.getId() > 0) {
-                clienteService.editarCliente(cliente);
+                proyectoService.editarCliente(cliente);
             } else {
-                clienteService.crearCliente(cliente);
+                proyectoService.crearCliente(cliente);
             }
 
             return "redirect:/clientes/listar";
@@ -91,15 +89,33 @@ public class ProyectoController {
     @GetMapping("/clientes/eliminar/{id}")
     public String eliminar(@PathVariable(value = "id") Integer id) {
         if (id > 0) {
-            clienteService.eliminarCliente(id);
+            proyectoService.eliminarCliente(id);
         }
         return "redirect:/clientes/listar";
     }
 
     @GetMapping("/clientes/ciudades")
     public String listarCiudades(Model model) {
-        model.addAttribute("titulo", "Listado de Ciudades");
-        model.addAttribute("ciudades", clienteService.listarCiudadesTodasUnicas());
+        model.addAttribute("titulo", "\uD83D\uDD0D Clientes x Ciudad");
+        model.addAttribute("ciudades", proyectoService.listarCiudadesTodasUnicas());
         return "clientes/listarCiudades";
+    }
+
+    @PostMapping("/clientes/ciudades")
+    public String listarClientesPorCiudad(HttpServletRequest req, Model model) {
+        String ciudad = req.getParameter("ciudad");
+        //Validad que ciudad no venga vacío, si viene vacío redirigir al formulario nuevamente,
+        // de lo contrario buscar clientes por ciudad
+        if(ciudad.isEmpty()){
+            model.addAttribute("titulo", "\uD83D\uDD0D Clientes x Ciudad");
+            model.addAttribute("ciudades", proyectoService.listarCiudadesTodasUnicas());
+            return "redirect:clientes/ListarCiudades";
+        }else{
+            model.addAttribute("titulo", "Clientes de " + ciudad);
+            model.addAttribute("ciudad", ciudad);
+            model.addAttribute("clientes", proyectoService.ListarClientesPorCiudad(ciudad));
+            model.addAttribute("ciudades", proyectoService.listarCiudadesTodasUnicas());
+            return "clientes/listarCiudades";
+        }
     }
 }
