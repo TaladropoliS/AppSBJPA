@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .was-validated .form-control:invalid {
+            border-color: #dc3545; /* Red */
+        }
+
+        .was-validated .form-control:valid {
+            border-color: #198754; /* Green */
+        }
+    </style>
+</head>
+<body>
+<main class="container-fluid">
+
+    <div th:replace="~{components/navbar :: navbar}"></div>
+
+    <section class="mt-5">
+        <h1 th:text="${titulo}" class="text-center py-4"></h1>
+        <div class="col-md-8 mx-auto">
+            <form th:action="@{/pages/clientes/formulario}" th:object="${cliente}" method="post" class="needs-validation" novalidate>
+                <div class="row row-cols-2">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control"
+                               th:field="*{nombre}"
+                               th:classappend="(${#fields.hasErrors('nombre')} ? 'is-invalid' : '')">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                            Por favor, introduce un nombre válido.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" class="form-control"
+                               th:field="*{apellido}"
+                               th:classappend="${#fields.hasErrors('apellido')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">
+                            Por favor, introduce un apellido válido.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-2">
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control"
+                               th:field="*{correoE}"
+                               th:classappend="${#fields.hasErrors('correoE')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('correoE')}" th:errors="*{correoE}">
+                            Por favor, introduce un correo electrónico válido.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha creación</label>
+                        <input type="date" class="form-control"
+                               th:field="*{creacion}"
+                               th:classappend="${#fields.hasErrors('creacion')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('creacion')}" th:errors="*{creacion}">
+                            Por favor, introduce una fecha válida.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row row-cols-3">
+                    <div class="col-6 mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" class="form-control"
+                               th:field="*{direccion.direccion}"
+                               th:classappend="${#fields.hasErrors('direccion.direccion')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion.direccion')}"
+                             th:errors="*{direccion.direccion}">
+                            Por favor, introduce una dirección válida.
+                        </div>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <label class="form-label">Ciudad</label>
+                        <input type="text" class="form-control"
+                               th:field="*{direccion.ciudad}"
+                               th:classappend="${#fields.hasErrors('direccion.ciudad')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion.ciudad')}"
+                             th:errors="*{direccion.ciudad}">
+                            Por favor, introduce una ciudad válida.
+                        </div>
+                    </div>
+                    <div class="col-2 mb-3">
+                        <label class="form-label">Región</label>
+                        <select class="form-select"
+                                th:field="*{direccion.region}"
+                                th:classappend="${#fields.hasErrors('direccion.region')} ? 'is-invalid' : ''">
+                            <option value="" selected>--Región</option>
+                            <option value="XV - Arica y Parinacota">XV - AR</option>
+                            <option value="I - Tarapacá">I - TA</option>
+                            <option value="II - Antofagasta">II - AN</option>
+                            <option value="III - Atacama">III - AT</option>
+                            <option value="IV - Coquimbo">IV - CO</option>
+                            <option value="V - Valparaíso">V - VA</option>
+                            <option value="XIII - Metropolitana">XIII - RM</option>
+                            <option value="VI - O'Higgins">VI - OH</option>
+                            <option value="VII - Maule">VII - MA</option>
+                            <option value="XVI - Ñuble">XVI - NB</option>
+                            <option value="VIII - Biobío">VIII - BB</option>
+                            <option value="IX - La Araucanía">IX - LA</option>
+                            <option value="XIV - Los Ríos">XIV - LR</option>
+                            <option value="X - Los Lagos">X - LL</option>
+                            <option value="XI - Aysén">XI - AY</option>
+                            <option value="XII - Magallanes">XII - MG</option>
+                        </select>
+
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion.region')}"
+                             th:errors="*{direccion.region}">
+                            Por favor, introduce una región válida.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2 pb-5">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">Java</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">Python</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">javascript</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox4">Php</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox5">Sql</label>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{id}">
+                <div class="d-flex justify-content-around">
+                    <a th:href="@{/pages/clientes/listar}" class="btn btn-outline-secondary">
+                        ⏮ Volver
+                    </a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
+                        💾 Guardar
+                    </button>
+                </div>
+
+                <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="formModalLabel">Confirmar</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                Confirma el envío del formulario.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary me-auto" data-bs-dismiss="modal">
+                                    ✖ Cerrar
+                                </button>
+                                <button type="submit" class="btn btn-primary ms-auto">💾 Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>
+
+
+
