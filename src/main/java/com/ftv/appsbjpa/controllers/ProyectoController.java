@@ -78,7 +78,6 @@ public class ProyectoController {
             } else {
                 proyectoService.crearCliente(cliente);
             }
-
             return "redirect:/clientes/listar";
         } catch (Exception e) {
             model.addAttribute("error", "Error al guardar el cliente");
@@ -102,10 +101,7 @@ public class ProyectoController {
     }
 
     @PostMapping("/clientes/ciudades")
-    public String listarClientesPorCiudad(HttpServletRequest req, Model model) {
-        String ciudad = req.getParameter("ciudad");
-        //Validad que ciudad no venga vacío, si viene vacío redirigir al formulario nuevamente,
-        // de lo contrario buscar clientes por ciudad
+    public String listarClientesPorCiudad(@RequestParam String ciudad, Model model) {
         if(ciudad.isEmpty()){
             model.addAttribute("titulo", "\uD83D\uDD0D Clientes x Ciudad");
             model.addAttribute("ciudades", proyectoService.listarCiudadesTodasUnicas());
